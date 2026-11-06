@@ -12,7 +12,7 @@
         "ts_ms": 1791941946000
       },
       "expected_code": "ORDERING_UNVERIFIABLE",
-      "note": "What Observer's real run actually produced today: output_hash is the legacy content-only commitment, decision_id is never folded in. Not a tampering finding -- this write simply predates the mechanism.",
+      "note": "What Observer's real run actually produced today: output_hash is the legacy content-only commitment, decision_id is never folded in. Not a tampering finding -- this write simply predates the mechanism. This is the 'no ref embedded' write of astrogilda's three (probityai/agent-evidence-vectors#349).",
       "recorded_output_hash": "sha256:7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
       "source": {
         "approved_request": {
@@ -46,9 +46,55 @@
         "ts_ms": 1791941946000
       },
       "expected_code": "COMMITMENT_AFTER_DECISION",
-      "note": "The same real content and the same real covering decision, retrofitted under decision-bound-output-v1 -- what the same write would have produced had the dispatcher folded decision_id into output_hash.",
+      "note": "The same real content and the same real covering decision, retrofitted under decision-bound-output-v1 -- what the same write would have produced had the dispatcher folded decision_id into output_hash. This is the 'embeds the covering decision_ref' write of astrogilda's three.",
       "recorded_output_hash": "sha256:a6ef258a2510098fa083559c130bda094eb90a410738c7c39af4124af36378bf",
       "source": {
+        "approved_request": {
+          "attempt_id": "attempt-1",
+          "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+          "principal_id": "svc-payments",
+          "request_id": "request-1",
+          "run_id": "remora-AR-00",
+          "target_path": "/work/acct-2.txt",
+          "tenant_id": "tenant-1",
+          "tool_id": "transfer_funds"
+        },
+        "execution_digest": "da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "grant_issued_at_iso": "2026-10-14T01:39:06Z",
+        "grant_profile": "probity-protected-action-reference-v0",
+        "observer_commit": "04b495d823dbcc49fa47b28fe1ba359dba8d4553",
+        "remora_commit": "b25e735d36590154ff53768b4d245ad4c7996f64",
+        "remora_vectors_sha256": "f896178eac35aab8843f0902934f1433eb6dccb2a212fc4139a67890faaabd27"
+      },
+      "synthetic": false
+    },
+    {
+      "case_id": "AR-00-REAL-SUBSTITUTED",
+      "claimed_decision_id": "sha256:1c5c85631708f0a1933ec1f0ad5981a07ed322353731da58920f11a51410e49e",
+      "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
+      "decision_preimage": {
+        "action_ref": "sha256:c7c141b8f6f403caef15d01c95e67bb9929a4dcc56f3a9c2f6b607b2a7ba5bf0",
+        "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+        "outcome": "permit",
+        "policy_id": "probity-protected-action-reference-v0/da8a10646dad6df9ae8a9bc7f00298cea87e0e97a1e03392374c34e7aa680679",
+        "ts_ms": 1791941946000
+      },
+      "expected_code": "BINDING_MISMATCH",
+      "note": "AR-00's real content, citing AR-00's real covering decision (the citation recomputes correctly) -- but recorded_output_hash was actually bound against AR-04's real decision_id instead. Real-run analogue of ../vectors_decision_bound.json's synthetic DECISION-BOUND-SUBSTITUTED. This is the 'embeds another decision's ref' write of astrogilda's three.",
+      "recorded_output_hash": "sha256:60169b809a4a6467b17c6c4736e8da93dbdf39362db1d3730a0b2005d0c839ae",
+      "source": {
+        "actually_bound_decision": {
+          "case_id": "AR-04",
+          "decision_id": "sha256:752f3fa0817c521ad320680a009ed97dbd17913fa7f5b712b26e128e8a1ea94b",
+          "decision_preimage": {
+            "action_ref": "sha256:c7c141b8f6f403caef15d01c95e67bb9929a4dcc56f3a9c2f6b607b2a7ba5bf0",
+            "canonicalization_profile_id": "f018a62879ab01f21e8fe5e9e7486dadba0b795e9358b32fd24d38d2c1f1f07d",
+            "outcome": "permit",
+            "policy_id": "probity-protected-action-reference-v0/20611fe0cec60da335ceaf17291205c963854565e95b0d2de3931984e78f99a2",
+            "ts_ms": 1791941946000
+          },
+          "note": "A second real case from the same pinned run (same run_dir, same source-pins.json). AR-04's own dispatch was refused at the configuration-check stage (run-report.json: nativeWriteEvents=0, localOutcome=CONTEXT_CHANGED) -- it never produced a completed write of its own. Its grant and attempt are nonetheless real retained artifacts, giving a real, independently-computed decision_id (differing from AR-00's because the two cases' real executionDigest values differ) to embed instead of the cited one -- not a fabricated or arbitrary hash."
+        },
         "approved_request": {
           "attempt_id": "attempt-1",
           "content_sha256": "7f353fcc5bd01b84b3d7fb209f62246e2c05e2f913afdc68584a1e6c47776b91",
